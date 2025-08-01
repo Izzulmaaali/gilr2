@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Untukmu</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      background: linear-gradient(to bottom right, #f7d9e3, #fcecef);
+      font-family: 'Segoe UI', sans-serif;
+      overflow: hidden;
+      height: 100vh;
+      position: relative;
+    }
+
+    .container {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 50px 20px;
+    }
+
+    img {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      border: 5px solid white;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+      margin-bottom: 20px;
+      object-fit: cover;
+    }
+
+    h1 {
+      color: #9c1c48;
+      margin-bottom: 10px;
+    }
+
+    .typewriter {
+      display: inline-block;
+      color: #6b183a;
+      font-size: 1.3em;
+      margin-top: 20px;
+      min-height: 60px;
+    }
+
+    button {
+      margin-top: 30px;
+      padding: 12px 24px;
+      background-color: #b73e63;
+      border: none;
+      color: white;
+      font-size: 16px;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background-color: #8a2949;
+    }
+
+    .hearts {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .heart {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: pink;
+      transform: rotate(45deg);
+      animation: fall 6s linear infinite;
+      opacity: 0.8;
+    }
+
+    .heart::before,
+    .heart::after {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: pink;
+      border-radius: 50%;
+    }
+
+    .heart::before {
+      top: -10px;
+      left: 0;
+    }
+
+    .heart::after {
+      top: 0;
+      left: -10px;
+    }
+
+    @keyframes fall {
+      0% { transform: translateY(-10%) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="hearts" id="hearts-container"></div>
+
+  <div class="container">
+    <img src="foto.jpeg" alt="Foto Pacar">
+    <h1>Untukmu feyyina</h1>
+    <h2>Kesayanganku</h2>
+    <div class="typewriter" id="typewriter"></div>
+    <button onclick="startLove()">Mulai</button>
+  </div>
+
+  <audio id="bgm" loop>
+    <source src="https://files.catbox.moe/4hlj67.mp3" type="audio/mp3">
+  </audio>
+
+  <script>
+    const messages = [
+      "Terima kasih sudah hadir dalam hidupku.",
+      "Bersamamu, aku belajar makna kesederhanaan dan ketulusan.",
+      "Kamu tidak sempurna, aku pun tidak. Tapi bersama, kita saling melengkapi.",
+      "Waktu mungkin terus berjalan, tapi perasaanku tetap utuh untukmu.",
+      "Banyak sekali kesalahan yang terus menerus aku ulang.",
+      "Tapi bukan berarti aku tidak sayang kamu.",
+      "aku hanya ingin menjadi yang terbaik untukmu.",
+      "Maafkan aku, jika cara mencintaiku salah.",
+      "Semoga langkah kita selalu searah, hingga akhir nanti.",
+      "Love you feyyina Putri Daniarsih."
+    ];
+
+    let i = 0;
+    let j = 0;
+    let isDeleting = false;
+
+    function typeMessage() {
+      const element = document.getElementById("typewriter");
+      const current = messages[i];
+      if (!isDeleting) {
+        element.textContent = current.substring(0, j++);
+        if (j > current.length) {
+          isDeleting = true;
+          setTimeout(typeMessage, 1800);
+          return;
+        }
+      } else {
+        element.textContent = current.substring(0, j--);
+        if (j === 0) {
+          isDeleting = false;
+          i = (i + 1) % messages.length;
+        }
+      }
+      setTimeout(typeMessage, isDeleting ? 30 : 80);
+    }
+
+    function startLove() {
+      document.getElementById("bgm").play();
+      typeMessage();
+    }
+
+    function spawnHearts() {
+      const container = document.getElementById("hearts-container");
+      setInterval(() => {
+        const heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.animationDuration = (3 + Math.random() * 3) + "s";
+        container.appendChild(heart);
+        setTimeout(() => heart.remove(), 6000);
+      }, 300);
+    }
+
+    spawnHearts();
+  </script>
+</body>
+</html>
